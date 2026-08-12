@@ -3,13 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Eclipse Technology Solutions | IT Support</title>
+<title>Eclipse Technology Solutions | IT Support in Cape Town</title>
+<meta name="description" content="Fast, friendly on-site and remote IT support across Cape Town — Southern &amp; Northern Suburbs, Cape Winelands, Atlantic Seaboard. Plus maritime IT, VoIP, CCTV &amp; VSAT solutions for vessels in port.">
+<meta name="theme-color" content="#0D0F12">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Eclipse Technology Solutions | IT Support in Cape Town">
+<meta property="og:description" content="Fast, friendly on-site and remote IT support across Cape Town, plus specialist maritime IT solutions for vessels in port.">
+<meta property="og:url" content="https://www.eclipse-it.co.za">
+<meta property="og:image" content="https://www.eclipse-it.co.za/eclipse-logo-mark.svg">
+<meta name="twitter:card" content="summary">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="canonical" href="https://www.eclipse-it.co.za">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Eclipse Technology Solutions",
+  "url": "https://www.eclipse-it.co.za",
+  "email": "moses.bradley6@gmail.com",
+  "description": "On-site and remote IT support, plus maritime IT, VoIP, CCTV and VSAT solutions for businesses and vessels in Cape Town.",
+  "areaServed": [
+    "Southern Suburbs, Cape Town",
+    "Northern Suburbs, Cape Town",
+    "Cape Winelands",
+    "Atlantic Seaboard",
+    "Cape Town Metro"
+  ],
+  "openingHours": "Mo-Fr 09:00-18:00"
+}
+</script>
 <style>
   :root {
     --sky: #4FB6E8;
     --sky-dark: #2E93C4;
     --sky-light: #E8F6FD;
+    --amber: #F5B942;
+    --amber-dark: #D89A24;
+    --teal: #2FBF9F;
+    --teal-dark: #1F9C81;
     --black: #0D0F12;
     --charcoal: #1A1D22;
     --white: #FFFFFF;
@@ -88,10 +119,26 @@
   }
   nav a:active { transform: translateY(0); }
 
+  @media (max-width: 900px) {
+    header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px 6%;
+    }
+    nav { justify-content: flex-start; gap: 8px; }
+    nav a { padding: 7px 14px; font-size: 0.82rem; }
+    .hero { padding: 70px 6% 60px; }
+    .hero h1 { font-size: 2rem; }
+    section { padding: 56px 6%; }
+  }
+
   .hero {
     text-align: center;
     padding: 110px 6% 90px;
-    background: radial-gradient(circle at 50% 0%, rgba(79,182,232,0.18), transparent 60%);
+    background:
+      radial-gradient(circle at 30% 0%, rgba(79,182,232,0.20), transparent 55%),
+      radial-gradient(circle at 78% 15%, rgba(245,185,66,0.12), transparent 50%);
   }
 
   .hero h1 {
@@ -143,6 +190,13 @@
   }
   .btn-outline:hover { background: rgba(79,182,232,0.1); }
 
+  .btn-teal {
+    background: var(--teal);
+    color: var(--black);
+    box-shadow: 0 4px 20px rgba(47,191,159,0.35);
+  }
+  .btn-teal:hover { box-shadow: 0 6px 26px rgba(47,191,159,0.5); }
+
   section {
     padding: 80px 6%;
     max-width: 1100px;
@@ -153,9 +207,23 @@
     text-align: center;
     font-size: 2rem;
     font-weight: 700;
-    margin-bottom: 12px;
+    margin-bottom: 18px;
+    position: relative;
+    padding-bottom: 16px;
   }
   .section-title span { color: var(--sky); }
+  .section-title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 56px;
+    height: 4px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--sky), var(--amber));
+  }
+  #maritime .section-title::after { background: linear-gradient(90deg, var(--sky), var(--teal)); }
 
   .section-sub {
     text-align: center;
@@ -193,6 +261,11 @@
     font-size: 1.3rem;
     margin-bottom: 16px;
   }
+  .service-card .icon.icon-amber { background: rgba(245,185,66,0.15); color: var(--amber); }
+  .service-card .icon.icon-teal { background: rgba(47,191,159,0.15); color: var(--teal); }
+  .service-card:hover .icon.icon-amber { }
+  .service-card.card-amber:hover { border-color: var(--amber); }
+  .service-card.card-teal:hover { border-color: var(--teal); }
   .service-card h3 { font-size: 1.15rem; margin-bottom: 8px; }
   .service-card p { color: var(--gray); font-size: 0.95rem; }
 
@@ -334,6 +407,9 @@
     width: 8px; height: 8px; border-radius: 50%;
     background: var(--sky); flex-shrink: 0;
   }
+  #maritime .dropdown-panel li::before { background: var(--teal); }
+  #maritime .dropdown-panel { border-top: 2px solid var(--teal); }
+  #maritime .dropdown[open] .dropdown-panel { border-top: 2px solid var(--teal); }
   .dropdown-panel .consult-note {
     margin-top: 18px;
     padding-top: 18px;
@@ -384,7 +460,7 @@
 </section>
 
 <section id="story">
-  <div class="support-panel" style="background: var(--charcoal); color: var(--white); border: 1px solid #2A2E35;">
+  <div class="support-panel" style="background: var(--charcoal); color: var(--white); border: 1px solid #2A2E35; border-top: 3px solid var(--amber);">
     <h2 style="color: var(--white);">We love growing with local businesses</h2>
     <p style="color: var(--gray);">We're passionate about helping local businesses navigate their IT journey, wherever they're starting from. One of our proudest stories: we helped a small home office evolve into a fully operational contact centre with multiple staff members handling high volumes of calls on high-speed connectivity — and they're thriving today.</p>
   </div>
@@ -399,13 +475,13 @@
       <h3>Troubleshooting</h3>
       <p>Slow computer, error messages, software crashes — we track it down and fix it.</p>
     </div>
-    <div class="service-card">
-      <div class="icon">&#128225;</div>
+    <div class="service-card card-amber">
+      <div class="icon icon-amber">&#128225;</div>
       <h3>Network Setup</h3>
       <p>Wi-Fi, routers, and secure networks configured right the first time.</p>
     </div>
-    <div class="service-card">
-      <div class="icon">&#128737;</div>
+    <div class="service-card card-teal">
+      <div class="icon icon-teal">&#128737;</div>
       <h3>Security &amp; Malware Removal</h3>
       <p>Virus and malware cleanup, plus protection to keep it from happening again.</p>
     </div>
@@ -414,13 +490,13 @@
       <h3>Backup &amp; Recovery</h3>
       <p>Protect your files and recover what's been lost whenever possible.</p>
     </div>
-    <div class="service-card">
-      <div class="icon">&#128421;</div>
+    <div class="service-card card-amber">
+      <div class="icon icon-amber">&#128421;</div>
       <h3>Remote Support</h3>
       <p>Skip the drive — most issues can be resolved securely over a remote session.</p>
     </div>
-    <div class="service-card">
-      <div class="icon">&#128100;</div>
+    <div class="service-card card-teal">
+      <div class="icon icon-teal">&#128100;</div>
       <h3>One-on-One Training</h3>
       <p>Patient, plain-English walkthroughs for new devices, apps, or software.</p>
     </div>
@@ -436,13 +512,13 @@
       <h3>Southern Suburbs</h3>
       <p>On-site visits throughout the Southern Suburbs.</p>
     </div>
-    <div class="service-card">
-      <div class="icon">&#128205;</div>
+    <div class="service-card card-amber">
+      <div class="icon icon-amber">&#128205;</div>
       <h3>Northern Suburbs</h3>
       <p>On-site visits throughout the Northern Suburbs.</p>
     </div>
-    <div class="service-card">
-      <div class="icon">&#128205;</div>
+    <div class="service-card card-teal">
+      <div class="icon icon-teal">&#128205;</div>
       <h3>Cape Winelands &amp; Atlantic Seaboard</h3>
       <p>Covering the Cape Winelands, including the Atlantic Seaboard.</p>
     </div>
@@ -458,7 +534,7 @@
   <h2 class="section-title">Maritime <span>Solutions</span></h2>
   <p class="section-sub">Specialist marine IT and communications support for vessels visiting Cape Town.</p>
   <details class="dropdown">
-    <summary class="btn btn-primary">Services Offered</summary>
+    <summary class="btn btn-teal">Services Offered</summary>
     <div class="dropdown-panel">
       <ul>
         <li>Network Installations &amp; IT Support</li>
