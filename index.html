@@ -289,6 +289,66 @@
     font-size: 0.85rem;
   }
   footer a { color: var(--sky); text-decoration: none; }
+
+  .dropdown { text-align: center; }
+  .dropdown summary {
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    user-select: none;
+  }
+  .dropdown summary::-webkit-details-marker { display: none; }
+  .dropdown summary::after {
+    content: '\25BC';
+    font-size: 0.7rem;
+    transition: transform 0.25s ease;
+  }
+  .dropdown[open] summary::after { transform: rotate(180deg); }
+  .dropdown[open] summary { border-radius: 8px 8px 0 0; }
+
+  .dropdown-panel {
+    margin: 0 auto;
+    max-width: 560px;
+    background: var(--charcoal);
+    border: 1px solid #2A2E35;
+    border-radius: 0 0 12px 12px;
+    padding: 26px 32px 30px;
+    text-align: left;
+    animation: dropdownFade 0.25s ease;
+  }
+  .dropdown[open] .dropdown-panel { border-top: none; }
+  .dropdown-panel ul { list-style: none; }
+  .dropdown-panel li {
+    padding: 13px 0;
+    border-bottom: 1px solid #2A2E35;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--white);
+    font-size: 0.98rem;
+  }
+  .dropdown-panel li:last-child { border-bottom: none; }
+  .dropdown-panel li::before {
+    content: '';
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--sky); flex-shrink: 0;
+  }
+  .dropdown-panel .consult-note {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px dashed #2A2E35;
+    color: var(--gray);
+    font-size: 0.92rem;
+    text-align: center;
+  }
+  .dropdown-panel .consult-note a { color: var(--sky); font-weight: 600; text-decoration: none; }
+  .dropdown-panel .consult-note a:hover { text-decoration: underline; }
+
+  @keyframes dropdownFade {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 </style>
 </head>
 <body>
@@ -308,6 +368,7 @@
     <a href="#story">Our Story</a>
     <a href="#services">Services</a>
     <a href="#areas">Service Areas</a>
+    <a href="#maritime">Maritime Solutions</a>
     <a href="#support">Remote Support</a>
     <a href="#contact">Contact</a>
   </nav>
@@ -391,6 +452,25 @@
       <p>On-site support available across every Cape Town metro area.</p>
     </div>
   </div>
+</section>
+
+<section id="maritime">
+  <h2 class="section-title">Maritime <span>Solutions</span></h2>
+  <p class="section-sub">Specialist marine IT and communications support for vessels visiting Cape Town.</p>
+  <details class="dropdown">
+    <summary class="btn btn-primary">Services Offered</summary>
+    <div class="dropdown-panel">
+      <ul>
+        <li>Network Installations &amp; IT Support</li>
+        <li>Intercom Solutions</li>
+        <li>VoIP Sales and Services</li>
+        <li>CCTV</li>
+        <li>Security Systems</li>
+        <li>TVRO / VSAT Solutions</li>
+      </ul>
+      <p class="consult-note">Or <a href="#contact">contact us</a> for a free consultation on your project while visiting Cape Town.</p>
+    </div>
+  </details>
 </section>
 
 <section id="support">
