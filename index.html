@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eclipse Technology Solutions | IT Support</title>
+<style>
+  :root {
+    --sky: #4FB6E8;
+    --sky-dark: #2E93C4;
+    --sky-light: #E8F6FD;
+    --black: #0D0F12;
+    --charcoal: #1A1D22;
+    --white: #FFFFFF;
+    --gray: #A9B4BC;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--black);
+    color: var(--white);
+    line-height: 1.6;
+  }
+
+  a { color: inherit; }
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--charcoal);
+    border-bottom: 2px solid var(--sky);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 6%;
+  }
+
+  .logo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.5px;
+  }
+  .logo span { color: var(--sky); }
+
+  nav a {
+    text-decoration: none;
+    color: var(--gray);
+    margin-left: 28px;
+    font-size: 0.95rem;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--sky); }
+
+  .hero {
+    text-align: center;
+    padding: 110px 6% 90px;
+    background: radial-gradient(circle at 50% 0%, rgba(79,182,232,0.18), transparent 60%);
+  }
+
+  .hero h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    max-width: 800px;
+    margin: 0 auto 18px;
+  }
+  .hero h1 span { color: var(--sky); }
+
+  .hero p {
+    color: var(--gray);
+    max-width: 560px;
+    margin: 0 auto 34px;
+    font-size: 1.1rem;
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 18px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 15px 32px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+    cursor: pointer;
+    border: none;
+  }
+  .btn:hover { transform: translateY(-2px); }
+
+  .btn-primary {
+    background: var(--sky);
+    color: var(--black);
+    box-shadow: 0 4px 20px rgba(79,182,232,0.35);
+  }
+  .btn-primary:hover { box-shadow: 0 6px 26px rgba(79,182,232,0.5); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--sky);
+    border: 2px solid var(--sky);
+  }
+  .btn-outline:hover { background: rgba(79,182,232,0.1); }
+
+  section {
+    padding: 80px 6%;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .section-title span { color: var(--sky); }
+
+  .section-sub {
+    text-align: center;
+    color: var(--gray);
+    max-width: 550px;
+    margin: 0 auto 50px;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+  }
+
+  .service-card {
+    background: var(--charcoal);
+    border: 1px solid #2A2E35;
+    border-radius: 12px;
+    padding: 30px 26px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .service-card:hover {
+    border-color: var(--sky);
+    transform: translateY(-4px);
+  }
+  .service-card .icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: rgba(79,182,232,0.15);
+    color: var(--sky);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    margin-bottom: 16px;
+  }
+  .service-card h3 { font-size: 1.15rem; margin-bottom: 8px; }
+  .service-card p { color: var(--gray); font-size: 0.95rem; }
+
+  .support-panel {
+    background: linear-gradient(135deg, var(--sky-dark), var(--sky));
+    border-radius: 16px;
+    padding: 50px 6%;
+    text-align: center;
+    color: var(--black);
+  }
+  .support-panel h2 { font-size: 1.9rem; margin-bottom: 10px; }
+  .support-panel p { color: #14313f; max-width: 560px; margin: 0 auto 28px; }
+  .support-panel .btn-primary {
+    background: var(--black);
+    color: var(--white);
+    box-shadow: none;
+  }
+  .support-panel .btn-primary:hover { background: #22262d; }
+  .support-note {
+    margin-top: 18px;
+    font-size: 0.85rem;
+    color: #14313f;
+  }
+
+  .contact-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 50px;
+  }
+  @media (max-width: 750px) {
+    .contact-wrap { grid-template-columns: 1fr; }
+  }
+
+  .contact-info h3 { font-size: 1.3rem; margin-bottom: 14px; }
+  .contact-info p { color: var(--gray); margin-bottom: 22px; }
+  .info-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    color: var(--gray);
+    font-size: 0.95rem;
+  }
+  .info-item .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--sky); flex-shrink: 0;
+  }
+
+  form {
+    background: var(--charcoal);
+    border: 1px solid #2A2E35;
+    border-radius: 12px;
+    padding: 34px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  label {
+    font-size: 0.85rem;
+    color: var(--gray);
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  input, textarea, select {
+    width: 100%;
+    background: #12151A;
+    border: 1px solid #2A2E35;
+    border-radius: 8px;
+    padding: 12px 14px;
+    color: var(--white);
+    font-size: 0.95rem;
+    font-family: inherit;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--sky);
+  }
+
+  textarea { resize: vertical; min-height: 110px; }
+
+  form .btn-primary {
+    width: 100%;
+    text-align: center;
+    margin-top: 6px;
+  }
+
+  footer {
+    text-align: center;
+    padding: 34px 6%;
+    border-top: 1px solid #2A2E35;
+    color: var(--gray);
+    font-size: 0.85rem;
+  }
+  footer a { color: var(--sky); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Eclipse <span>Technology Solutions</span></div>
+  <nav>
+    <a href="#story">Our Story</a>
+    <a href="#services">Services</a>
+    <a href="#areas">Service Areas</a>
+    <a href="#support">Remote Support</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>IT support that shows up <span>when you need it</span></h1>
+  <p>Fast, friendly help for your computers and network — in person, on the phone, or connected remotely in minutes.</p>
+  <div class="btn-row">
+    <a href="#support" class="btn btn-primary">Start a Remote Session</a>
+    <a href="#contact" class="btn btn-outline">Contact Us</a>
+  </div>
+</section>
+
+<section id="story">
+  <div class="support-panel" style="background: var(--charcoal); color: var(--white); border: 1px solid #2A2E35;">
+    <h2 style="color: var(--white);">We love growing with local businesses</h2>
+    <p style="color: var(--gray);">We're passionate about helping local businesses navigate their IT journey, wherever they're starting from. One of our proudest stories: we helped a small home office evolve into a full IT call centre — and they're thriving today.</p>
+  </div>
+</section>
+
+<section id="services">
+  <h2 class="section-title">What We <span>Do</span></h2>
+  <p class="section-sub">Practical, no-nonsense tech support for home and small business.</p>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="icon">&#9881;</div>
+      <h3>Troubleshooting</h3>
+      <p>Slow computer, error messages, software crashes — we track it down and fix it.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon">&#128225;</div>
+      <h3>Network Setup</h3>
+      <p>Wi-Fi, routers, and secure networks configured right the first time.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon">&#128737;</div>
+      <h3>Security &amp; Malware Removal</h3>
+      <p>Virus and malware cleanup, plus protection to keep it from happening again.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon">&#128190;</div>
+      <h3>Backup &amp; Recovery</h3>
+      <p>Protect your files and recover what's been lost whenever possible.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon">&#128421;</div>
+      <h3>Remote Support</h3>
+      <p>Skip the drive — most issues can be resolved securely over a remote session.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon">&#128100;</div>
+      <h3>One-on-One Training</h3>
+      <p>Patient, plain-English walkthroughs for new devices, apps, or software.</p>
+    </div>
+  </div>
+</section>
+
+<section id="areas">
+  <h2 class="section-title">Where We <span>Work</span></h2>
+  <p class="section-sub">On-site IT support available across Cape Town.</p>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="icon">&#128205;</div>
+      <h3>Southern Suburbs</h3>
+      <p>On-site visits throughout the Southern Suburbs.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon">&#128205;</div>
+      <h3>Northern Suburbs</h3>
+      <p>On-site visits throughout the Northern Suburbs.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon">&#128205;</div>
+      <h3>Cape Winelands &amp; Atlantic Seaboard</h3>
+      <p>Covering the Cape Winelands, including the Atlantic Seaboard.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon">&#128205;</div>
+      <h3>All Cape Town Metro Areas</h3>
+      <p>On-site support available across every Cape Town metro area.</p>
+    </div>
+  </div>
+</section>
+
+<section id="support">
+  <div class="support-panel">
+    <h2>Need help right now?</h2>
+    <p>Start a secure remote support session and we'll connect to your screen to resolve the issue live — no appointment needed.</p>
+    <a href="https://assist.zoho.com/" target="_blank" rel="noopener" class="btn btn-primary">Start Remote Support Session</a>
+    <p class="support-note">Powered by Zoho Assist — secure, encrypted, and free for you to join.<br>Call or email us first if you don't yet have a session code.</p>
+  </div>
+</section>
+
+<section id="contact">
+  <h2 class="section-title">Get In <span>Touch</span></h2>
+  <p class="section-sub">Send us a message and we'll get back to you shortly.</p>
+  <div class="contact-wrap">
+    <div class="contact-info">
+      <h3>Let's talk</h3>
+      <p>Reach out for a quote, to schedule a visit, or to ask a quick question. We usually reply within one business day.</p>
+      <div class="info-item"><span class="dot"></span> moses.bradley6@gmail.com</div>
+      <div class="info-item"><span class="dot"></span> Remote support available anywhere</div>
+      <div class="info-item"><span class="dot"></span> On-site support: Southern Suburbs, Northern Suburbs, Cape Winelands, Atlantic Seaboard &amp; all Cape Town Metro areas</div>
+      <div class="info-item"><span class="dot"></span> Mon–Fri, 9am–6pm</div>
+    </div>
+    <form action="mailto:moses.bradley6@gmail.com" method="post" enctype="text/plain">
+      <div>
+        <label for="name">Name</label>
+        <input type="text" id="name" name="Name" placeholder="Your full name" required>
+      </div>
+      <div>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="Email" placeholder="you@example.com" required>
+      </div>
+      <div>
+        <label for="subject">Subject</label>
+        <select id="subject" name="Subject">
+          <option>General Inquiry</option>
+          <option>Request a Quote</option>
+          <option>Technical Issue</option>
+          <option>Schedule Remote Support</option>
+        </select>
+      </div>
+      <div>
+        <label for="message">Message</label>
+        <textarea id="message" name="Message" placeholder="Tell us what's going on..." required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Send Message</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  &copy; 2026 Eclipse Technology Solutions. All rights reserved. &middot; <a href="mailto:moses.bradley6@gmail.com">moses.bradley6@gmail.com</a>
+</footer>
+
+</body>
+</html>
