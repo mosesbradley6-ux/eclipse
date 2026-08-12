@@ -1,0 +1,9 @@
+{
+  "name": "eclipse-technology-solutions",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Eclipse Technology Solutions website",
+  "dependencies": {
+    "resend": "^4.0.1"
+  }
+}

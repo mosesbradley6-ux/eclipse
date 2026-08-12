@@ -394,6 +394,23 @@
     text-align: center;
     margin-top: 6px;
   }
+  form .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  .hp-field {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .form-status {
+    font-size: 0.9rem;
+    text-align: center;
+    min-height: 1.2em;
+  }
+  .form-status.success { color: var(--teal); }
+  .form-status.error { color: #e0665a; }
 
   footer {
     text-align: center;
@@ -745,18 +762,18 @@
       <div class="info-item"><span class="dot"></span> On-site support: Southern Suburbs, Northern Suburbs, Cape Winelands, Atlantic Seaboard &amp; all Cape Town Metro areas</div>
       <div class="info-item"><span class="dot"></span> Mon–Fri, 9am–6pm</div>
     </div>
-    <form action="mailto:info@eclipse-it.co.za" method="post" enctype="text/plain">
+    <form id="contact-form">
       <div>
         <label for="name">Name</label>
-        <input type="text" id="name" name="Name" placeholder="Your full name" required>
+        <input type="text" id="name" name="name" placeholder="Your full name" required>
       </div>
       <div>
         <label for="email">Email</label>
-        <input type="email" id="email" name="Email" placeholder="you@example.com" required>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required>
       </div>
       <div>
         <label for="subject">Subject</label>
-        <select id="subject" name="Subject">
+        <select id="subject" name="subject">
           <option>General Inquiry</option>
           <option>Request a Quote</option>
           <option>Technical Issue</option>
@@ -765,9 +782,14 @@
       </div>
       <div>
         <label for="message">Message</label>
-        <textarea id="message" name="Message" placeholder="Tell us what's going on..." required></textarea>
+        <textarea id="message" name="message" placeholder="Tell us what's going on..." required></textarea>
+      </div>
+      <div class="hp-field" aria-hidden="true">
+        <label for="company">Company</label>
+        <input type="text" id="company" name="company" tabindex="-1" autocomplete="off">
       </div>
       <button type="submit" class="btn btn-primary">Send Message</button>
+      <p id="form-status" class="form-status"></p>
     </form>
   </div>
 </section>
@@ -830,6 +852,55 @@
     } catch (e) {
       textEl.textContent = 'Support hours: Mon–Fri, 9am–6pm SAST';
     }
+  })();
+</script>
+
+<script>
+  (function () {
+    var form = document.getElementById('contact-form');
+    if (!form) return;
+    var statusEl = document.getElementById('form-status');
+    var btn = form.querySelector('button[type="submit"]');
+    var originalBtnText = btn.textContent;
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var payload = {
+        name: form.name.value,
+        email: form.email.value,
+        subject: form.subject.value,
+        message: form.message.value,
+        company: form.company.value
+      };
+
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      statusEl.textContent = '';
+      statusEl.className = 'form-status';
+
+      fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(function (res) {
+          if (!res.ok) throw new Error('Request failed');
+          return res.json();
+        })
+        .then(function () {
+          form.reset();
+          statusEl.textContent = "Thanks — your message is on its way. We'll get back to you within one business day.";
+          statusEl.className = 'form-status success';
+        })
+        .catch(function () {
+          statusEl.textContent = 'Something went wrong sending your message. Please email us directly at info@eclipse-it.co.za.';
+          statusEl.className = 'form-status error';
+        })
+        .finally(function () {
+          btn.disabled = false;
+          btn.textContent = originalBtnText;
+        });
+    });
   })();
 </script>
 
