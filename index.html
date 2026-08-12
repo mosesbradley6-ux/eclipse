@@ -466,6 +466,90 @@
     from { opacity: 0; transform: translateY(-6px); }
     to { opacity: 1; transform: translateY(0); }
   }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 18px;
+    border-radius: 999px;
+    background: rgba(13,15,18,0.15);
+    border: 1px solid rgba(13,15,18,0.2);
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--black);
+    margin-bottom: 24px;
+  }
+  .status-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .status-online .status-dot { background: #1F9C56; box-shadow: 0 0 0 4px rgba(31,156,86,0.25); }
+  .status-offline .status-dot { background: #6b5a1f; box-shadow: 0 0 0 4px rgba(107,90,31,0.2); }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .faq-item {
+    background: var(--charcoal);
+    border: 1px solid #2A2E35;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .faq-item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    font-weight: 600;
+    font-size: 1rem;
+    user-select: none;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after {
+    content: '+';
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--sky);
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+  .faq-item[open] summary::after { transform: rotate(45deg); }
+  .faq-item[open] summary { border-bottom: 1px solid #2A2E35; }
+  .faq-answer {
+    padding: 4px 24px 22px;
+    color: var(--gray);
+    font-size: 0.95rem;
+    animation: dropdownFade 0.2s ease;
+  }
+
+  .popia-panel {
+    background: var(--charcoal);
+    border: 1px solid #2A2E35;
+    border-radius: 16px;
+    padding: 44px 6%;
+    max-width: 820px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .popia-panel .icon-shield {
+    width: 46px;
+    height: 46px;
+    margin: 0 auto 18px;
+    color: var(--sky);
+  }
+  .popia-panel h2 { font-size: 1.5rem; margin-bottom: 14px; }
+  .popia-panel p { color: var(--gray); font-size: 0.95rem; max-width: 640px; margin: 0 auto; }
+  .popia-panel p + p { margin-top: 12px; }
 </style>
 </head>
 <body>
@@ -487,6 +571,7 @@
     <a href="#areas">Service Areas</a>
     <a href="#maritime">Maritime Solutions</a>
     <a href="#support">Remote Support</a>
+    <a href="#faq">FAQ</a>
     <a href="#contact">Contact</a>
   </nav>
 </header>
@@ -506,6 +591,10 @@
     <div class="credential-badge">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5z"/><path d="M9 12l2 2 4-4"/></svg>
       CompTIA Certified
+    </div>
+    <div class="credential-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+      Same-day response · Mon–Fri
     </div>
   </div>
 </section>
@@ -602,10 +691,45 @@
 
 <section id="support">
   <div class="support-panel">
+    <div id="support-status" class="status-badge status-offline">
+      <span class="status-dot"></span>
+      <span class="status-text">Checking support status…</span>
+    </div>
     <h2>Need help right now?</h2>
     <p>Start a secure remote support session and we'll connect to your screen to resolve the issue live — no appointment needed.</p>
     <a href="https://assist.zoho.com/" target="_blank" rel="noopener" class="btn btn-primary">Start Remote Support Session</a>
     <p class="support-note">Powered by Zoho Assist — secure, encrypted, and free for you to join.<br>Call or email us first if you don't yet have a session code.</p>
+  </div>
+</section>
+
+<section id="faq">
+  <h2 class="section-title">Frequently Asked <span>Questions</span></h2>
+  <p class="section-sub">Not sure if you need us? Here's what usually brings people to Eclipse.</p>
+  <div class="faq-list">
+    <details class="faq-item">
+      <summary>My Wi-Fi keeps dropping or feels painfully slow — can you fix that?</summary>
+      <div class="faq-answer"><p>Almost always, yes. It's usually router placement, outdated firmware, channel interference, or a network that's simply outgrown its setup. We diagnose it properly rather than just rebooting the router and hoping.</p></div>
+    </details>
+    <details class="faq-item">
+      <summary>I'm getting constant pop-ups or a ransomware-style warning — what do I do?</summary>
+      <div class="faq-answer"><p>Disconnect the device from Wi-Fi/network if you can, don't click anything on the warning, and contact us straight away. This is one of the few situations where speed genuinely matters — start a remote session or call us first.</p></div>
+    </details>
+    <details class="faq-item">
+      <summary>How quickly can you actually help?</summary>
+      <div class="faq-answer"><p>Remote sessions are usually live within minutes once connected. For anything requiring a visit or deeper diagnosis, we commit to a same-day response, Monday to Friday.</p></div>
+    </details>
+    <details class="faq-item">
+      <summary>Do you only do once-off fixes, or ongoing support too?</summary>
+      <div class="faq-answer"><p>Both. Some clients call us only when something breaks; others prefer an ongoing arrangement so we're proactively keeping an eye on things. Get in touch and we'll figure out what makes sense for you.</p></div>
+    </details>
+    <details class="faq-item">
+      <summary>I'm really not techy — will I understand what you're doing?</summary>
+      <div class="faq-answer"><p>That's the point of plain-English support. We explain what went wrong and what we did about it, without the jargon, whether you're troubleshooting solo or want us to just handle it.</p></div>
+    </details>
+    <details class="faq-item">
+      <summary>Do you work with businesses outside standard office IT — like vessels in port?</summary>
+      <div class="faq-answer"><p>Yes — see our <a href="#maritime">Maritime Solutions</a> above for network installations, intercoms, VoIP, CCTV, security systems, and TVRO/VSAT support for vessels visiting Cape Town.</p></div>
+    </details>
   </div>
 </section>
 
@@ -661,6 +785,15 @@
   </div>
 </section>
 
+<section id="privacy">
+  <div class="popia-panel">
+    <svg class="icon-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5z"/><path d="M9 12l2 2 4-4"/></svg>
+    <h2>Your Data, Protected</h2>
+    <p>Supporting your IT means we sometimes access your devices, networks, and systems directly. We take that access seriously and handle personal information in line with South Africa's Protection of Personal Information Act (POPIA) — accessing only what's needed to resolve the issue at hand, never sharing your data with third parties, and keeping remote sessions encrypted and consent-based.</p>
+    <p>Have questions about how we handle your data, or want a copy of our privacy policy? <a href="#contact" style="color: var(--sky); font-weight: 600; text-decoration: none;">Get in touch</a>.</p>
+  </div>
+</section>
+
 <footer>
   <div class="footer-brand">
     <svg class="logo-mark" viewBox="-132 -91 236 182" xmlns="http://www.w3.org/2000/svg">
@@ -674,6 +807,31 @@
   </div>
   &copy; 2026 Eclipse Technology Solutions. All rights reserved.
 </footer>
+
+<script>
+  (function () {
+    var el = document.getElementById('support-status');
+    if (!el) return;
+    var textEl = el.querySelector('.status-text');
+    try {
+      var now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Africa/Johannesburg' }));
+      var day = now.getDay();
+      var hour = now.getHours();
+      var isOpen = day >= 1 && day <= 5 && hour >= 9 && hour < 18;
+      if (isOpen) {
+        el.classList.remove('status-offline');
+        el.classList.add('status-online');
+        textEl.textContent = 'Online now — we typically reply within minutes';
+      } else {
+        el.classList.remove('status-online');
+        el.classList.add('status-offline');
+        textEl.textContent = "Outside business hours (Mon–Fri, 9am–6pm SAST) — we'll respond next business day";
+      }
+    } catch (e) {
+      textEl.textContent = 'Support hours: Mon–Fri, 9am–6pm SAST';
+    }
+  })();
+</script>
 
 </body>
 </html>
