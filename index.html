@@ -61,14 +61,32 @@
     color: var(--white);
   }
 
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
   nav a {
     text-decoration: none;
     color: var(--gray);
-    margin-left: 28px;
-    font-size: 0.95rem;
-    transition: color 0.2s;
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 9px 18px;
+    border-radius: 999px;
+    border: 1px solid #2A2E35;
+    background: rgba(79,182,232,0.06);
+    white-space: nowrap;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   }
-  nav a:hover { color: var(--sky); }
+  nav a:hover {
+    color: var(--black);
+    background: var(--sky);
+    border-color: var(--sky);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(79,182,232,0.4);
+  }
+  nav a:active { transform: translateY(0); }
 
   .hero {
     text-align: center;
@@ -307,7 +325,7 @@
 <section id="story">
   <div class="support-panel" style="background: var(--charcoal); color: var(--white); border: 1px solid #2A2E35;">
     <h2 style="color: var(--white);">We love growing with local businesses</h2>
-    <p style="color: var(--gray);">We're passionate about helping local businesses navigate their IT journey, wherever they're starting from. One of our proudest stories: we helped a small home office evolve into a full IT call centre — and they're thriving today.</p>
+    <p style="color: var(--gray);">We're passionate about helping local businesses navigate their IT journey, wherever they're starting from. One of our proudest stories: we helped a small home office evolve into a fully operational contact centre with multiple staff members handling high volumes of calls on high-speed connectivity — and they're thriving today.</p>
   </div>
 </section>
 
