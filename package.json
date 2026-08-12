@@ -1,0 +1,23 @@
+{
+  "name": "primary",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mosesbradley6-ux/eclipse.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mosesbradley6-ux/eclipse/issues"
+  },
+  "homepage": "https://github.com/mosesbradley6-ux/eclipse#readme",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
+}
