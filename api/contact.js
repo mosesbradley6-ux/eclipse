@@ -25,7 +25,7 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from: 'Eclipse Website <website@mail.eclipse-it.co.za>',
       to: ['info@eclipse-it.co.za'],
       replyTo: email,
@@ -38,6 +38,14 @@ module.exports = async function handler(req, res) {
         `Message:\n${message}`,
     });
 
+    // Resend's SDK does NOT throw on API-level errors (e.g. unverified domain) —
+    // it returns { data, error } instead, so we must check `error` explicitly.
+    if (error) {
+      console.error('Resend API error:', error);
+      return res.status(502).json({ error: error.message || 'Email provider rejected the send' });
+    }
+
+    console.log('Resend send accepted, id:', data && data.id);
     return res.status(200).json({ ok: true });
   } catch (err) {
     console.error('Resend send failed:', err);
