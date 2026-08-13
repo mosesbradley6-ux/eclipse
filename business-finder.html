@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eclipse Technology Solutions Business Lead Finder (Internal Tool)</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+  :root {
+    --sky: #4FB6E8;
+    --sky-dark: #2E93C4;
+    --amber: #F5B942;
+    --teal: #2FBF9F;
+    --black: #0D0F12;
+    --charcoal: #1A1D22;
+    --charcoal2: #12151A;
+    --white: #FFFFFF;
+    --gray: #A9B4BC;
+    --border: #2A2E35;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--black);
+    color: var(--white);
+    line-height: 1.5;
+    padding: 32px 4%;
+  }
+  a { color: var(--sky); }
+  .wrap { max-width: 1200px; margin: 0 auto; }
+
+  header { margin-bottom: 28px; }
+  header h1 { font-size: 1.7rem; font-weight: 800; }
+  header h1 span { color: var(--sky); }
+  header p { color: var(--gray); margin-top: 6px; font-size: 0.92rem; }
+  .badge-internal {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--amber);
+    color: var(--amber);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+
+  .panel {
+    background: var(--charcoal);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 24px;
+    margin-bottom: 20px;
+  }
+  .panel h2 { font-size: 1.05rem; margin-bottom: 14px; }
+
+  .group-title { font-size: 0.8rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+
+  .checks { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+  .chk {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--charcoal2);
+    font-size: 0.86rem;
+    cursor: pointer;
+    user-select: none;
+    transition: border-color .15s;
+  }
+  .chk:has(input:checked) { border-color: var(--sky); color: var(--sky); }
+  .chk input { accent-color: var(--sky); }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: none;
+    cursor: pointer;
+    transition: box-shadow .15s, opacity .15s;
+  }
+  .btn-primary { background: var(--sky); color: var(--black); box-shadow: 0 4px 16px rgba(79,182,232,.3); }
+  .btn-primary:disabled { opacity: .5; cursor: not-allowed; box-shadow: none; }
+  .btn-outline { background: transparent; color: var(--gray); border: 1px solid var(--border); }
+  .btn-outline:hover { border-color: var(--sky); color: var(--sky); }
+
+  .status-line {
+    margin-top: 14px;
+    font-size: 0.85rem;
+    color: var(--gray);
+    min-height: 1.4em;
+  }
+  .status-line.error { color: #e0665a; }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .stat {
+    background: var(--charcoal);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .stat .num { font-size: 1.7rem; font-weight: 800; }
+  .stat .lbl { font-size: 0.8rem; color: var(--gray); margin-top: 2px; }
+  .stat.sky .num { color: var(--sky); }
+  .stat.amber .num { color: var(--amber); }
+  .stat.teal .num { color: var(--teal); }
+
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .toolbar input[type="text"], .toolbar select {
+    background: var(--charcoal2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: var(--white);
+    font-size: 0.9rem;
+  }
+  .toolbar input[type="text"] { flex: 1; min-width: 180px; }
+
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.86rem; min-width: 900px; }
+  thead th {
+    text-align: left;
+    background: var(--charcoal2);
+    color: var(--gray);
+    font-weight: 600;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  thead th:hover { color: var(--sky); }
+  tbody td { padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: rgba(79,182,232,0.04); }
+  .empty-row td { text-align: center; color: var(--gray); padding: 40px; }
+  .star-btn { background: none; border: none; cursor: pointer; font-size: 1rem; color: var(--border); }
+  .star-btn.on { color: var(--amber); }
+  .pill { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 0.72rem; font-weight: 600; background: rgba(79,182,232,0.12); color: var(--sky); }
+
+  footer.note { margin-top: 24px; font-size: 0.8rem; color: var(--gray); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Eclipse Technology Solutions <span>Business Lead Finder</span></h1>
+    <p>Pull local business leads from OpenStreetMap for your service areas, review, star the best fits, export to CSV.</p>
+    <span class="badge-internal">Internal tool — not linked from the public site</span>
+  </header>
+
+  <div class="panel">
+    <h2>1. Choose regions and categories</h2>
+
+    <div class="group-title">Regions</div>
+    <div class="checks" id="region-checks"></div>
+
+    <div class="group-title">Business categories (OpenStreetMap tags)</div>
+    <div class="checks" id="category-checks"></div>
+
+    <button class="btn btn-primary" id="fetch-btn">
+      <i></i>Fetch businesses
+    </button>
+    <div class="status-line" id="status-line"></div>
+  </div>
+
+  <div class="stats">
+    <div class="stat sky"><div class="num" id="stat-total">0</div><div class="lbl">Businesses found</div></div>
+    <div class="stat"><div class="num" id="stat-phone">0</div><div class="lbl">With phone</div></div>
+    <div class="stat"><div class="num" id="stat-website">0</div><div class="lbl">With website</div></div>
+    <div class="stat amber"><div class="num" id="stat-starred">0</div><div class="lbl">Starred</div></div>
+  </div>
+
+  <div class="panel">
+    <div class="toolbar">
+      <input type="text" id="search-box" placeholder="Filter by name, suburb, or category...">
+      <select id="region-filter"><option value="">All regions</option></select>
+      <label class="chk"><input type="checkbox" id="starred-only"> Starred only</label>
+      <button class="btn btn-outline" id="export-btn"><i></i>Export CSV</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:34px"></th>
+            <th data-sort="name">Name</th>
+            <th data-sort="category">Category</th>
+            <th data-sort="suburb">Suburb</th>
+            <th data-sort="region">Region</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>Website</th>
+          </tr>
+        </thead>
+        <tbody id="results-body">
+          <tr class="empty-row"><td colspan="8">No data yet — choose regions above and click "Fetch businesses".</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer class="note">
+    Data sourced from OpenStreetMap (ODbL). Coverage varies by suburb; most entries will be missing a phone or website — that's normal. This tool only gathers public location data; it does not contact anyone. See the outreach strategy document for compliant next steps under POPIA.
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  var REGIONS = {
+    "Southern Suburbs": ["Claremont", "Rondebosch", "Newlands", "Wynberg", "Constantia", "Kenilworth", "Plumstead", "Bishopscourt"],
+    "Northern Suburbs": ["Bellville", "Durbanville", "Parow", "Goodwood", "Brackenfell", "Kraaifontein", "Tyger Valley"],
+    "Atlantic Seaboard": ["Sea Point", "Green Point", "Camps Bay", "Clifton", "Mouille Point", "Bantry Bay"],
+    "Cape Winelands": ["Stellenbosch", "Paarl", "Franschhoek", "Wellington"]
+  };
+  var CATEGORIES = ["office", "shop", "craft"];
+  var OVERPASS_URL = "https://overpass-api.de/api/interpreter";
+
+  var rows = [];
+  var starred = {};
+  try { starred = JSON.parse(localStorage.getItem("ets_starred_leads") || "{}"); } catch (e) {}
+
+  var regionChecks = document.getElementById("region-checks");
+  var categoryChecks = document.getElementById("category-checks");
+  var regionFilter = document.getElementById("region-filter");
+
+  Object.keys(REGIONS).forEach(function (region) {
+    var label = document.createElement("label");
+    label.className = "chk";
+    label.innerHTML = '<input type="checkbox" value="' + region + '" checked> ' + region;
+    regionChecks.appendChild(label);
+
+    var opt = document.createElement("option");
+    opt.value = region;
+    opt.textContent = region;
+    regionFilter.appendChild(opt);
+  });
+
+  CATEGORIES.forEach(function (cat, i) {
+    var label = document.createElement("label");
+    label.className = "chk";
+    label.innerHTML = '<input type="checkbox" value="' + cat + '" ' + (i < 2 ? "checked" : "") + '> ' + cat;
+    categoryChecks.appendChild(label);
+  });
+
+  function checkedValues(container) {
+    return Array.prototype.slice.call(container.querySelectorAll("input:checked")).map(function (i) { return i.value; });
+  }
+
+  function buildQuery(suburb, categories) {
+    var clauses = [];
+    categories.forEach(function (cat) {
+      clauses.push('node["' + cat + '"](area.searchArea);');
+      clauses.push('way["' + cat + '"](area.searchArea);');
+    });
+    return '[out:json][timeout:25];area["name"="' + suburb + '"]->.searchArea;(' + clauses.join("") + ');out center tags;';
+  }
+
+  function extractRow(el, region, suburb) {
+    var tags = el.tags || {};
+    var name = tags.name;
+    if (!name) return null;
+    var category = CATEGORIES.filter(function (c) { return tags[c]; })[0] || "";
+    var addr = [tags["addr:housenumber"], tags["addr:street"]].filter(Boolean).join(" ") || tags["addr:full"] || "";
+    return {
+      region: region,
+      suburb: suburb,
+      name: name,
+      category: (category ? tags[category] : "") || category || "business",
+      address: addr,
+      phone: tags["contact:phone"] || tags.phone || "",
+      website: tags["contact:website"] || tags.website || "",
+      email: tags["contact:email"] || tags.email || "",
+      id: el.type + "/" + el.id
+    };
+  }
+
+  function sleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+
+  var statusLine = document.getElementById("status-line");
+  var fetchBtn = document.getElementById("fetch-btn");
+
+  async function fetchAll() {
+    var selectedRegions = checkedValues(regionChecks);
+    var selectedCats = checkedValues(categoryChecks);
+    if (!selectedRegions.length || !selectedCats.length) {
+      statusLine.textContent = "Pick at least one region and one category first.";
+      statusLine.className = "status-line error";
+      return;
+    }
+
+    fetchBtn.disabled = true;
+    rows = [];
+    statusLine.className = "status-line";
+
+    var suburbList = [];
+    selectedRegions.forEach(function (region) {
+      REGIONS[region].forEach(function (suburb) { suburbList.push([region, suburb]); });
+    });
+
+    for (var i = 0; i < suburbList.length; i++) {
+      var region = suburbList[i][0], suburb = suburbList[i][1];
+      statusLine.textContent = "Fetching " + suburb + " (" + (i + 1) + "/" + suburbList.length + ")...";
+      try {
+        var resp = await fetch(OVERPASS_URL, { method: "POST", body: "data=" + encodeURIComponent(buildQuery(suburb, selectedCats)) });
+        if (!resp.ok) throw new Error("HTTP " + resp.status);
+        var data = await resp.json();
+        var found = 0;
+        (data.elements || []).forEach(function (el) {
+          var row = extractRow(el, region, suburb);
+          if (row) { rows.push(row); found++; }
+        });
+        statusLine.textContent = suburb + ": " + found + " found. (" + (i + 1) + "/" + suburbList.length + ")";
+      } catch (err) {
+        statusLine.textContent = "Could not fetch " + suburb + " (" + err.message + ") — skipping.";
+      }
+      renderTable();
+      renderStats();
+      await sleep(800);
+    }
+
+    fetchBtn.disabled = false;
+    statusLine.textContent = "Done. " + rows.length + " businesses across " + suburbList.length + " suburbs.";
+  }
+
+  function currentFilters() {
+    return {
+      q: document.getElementById("search-box").value.trim().toLowerCase(),
+      region: regionFilter.value,
+      starredOnly: document.getElementById("starred-only").checked
+    };
+  }
+
+  function filteredRows() {
+    var f = currentFilters();
+    return rows.filter(function (r) {
+      if (f.region && r.region !== f.region) return false;
+      if (f.starredOnly && !starred[r.id]) return false;
+      if (f.q) {
+        var hay = (r.name + " " + r.suburb + " " + r.category + " " + r.region).toLowerCase();
+        if (hay.indexOf(f.q) === -1) return false;
+      }
+      return true;
+    });
+  }
+
+  function toggleStar(id) {
+    starred[id] = !starred[id];
+    if (!starred[id]) delete starred[id];
+    try { localStorage.setItem("ets_starred_leads", JSON.stringify(starred)); } catch (e) {}
+    renderTable();
+    renderStats();
+  }
+
+  function renderTable() {
+    var body = document.getElementById("results-body");
+    var list = filteredRows();
+    if (!list.length) {
+      body.innerHTML = '<tr class="empty-row"><td colspan="8">' + (rows.length ? "No results match your filters." : "No data yet — choose regions above and click \"Fetch businesses\".") + '</td></tr>';
+      return;
+    }
+    body.innerHTML = list.map(function (r) {
+      var isStar = !!starred[r.id];
+      return '<tr>' +
+        '<td><button class="star-btn' + (isStar ? " on" : "") + '" data-id="' + r.id + '">' + (isStar ? "★" : "☆") + '</button></td>' +
+        '<td>' + escapeHtml(r.name) + '</td>' +
+        '<td><span class="pill">' + escapeHtml(r.category) + '</span></td>' +
+        '<td>' + escapeHtml(r.suburb) + '</td>' +
+        '<td>' + escapeHtml(r.region) + '</td>' +
+        '<td>' + escapeHtml(r.address) + '</td>' +
+        '<td>' + (r.phone ? escapeHtml(r.phone) : '<span style="color:var(--border)">—</span>') + '</td>' +
+        '<td>' + (r.website ? '<a href="' + escapeAttr(r.website) + '" target="_blank" rel="noopener">visit</a>' : '<span style="color:var(--border)">—</span>') + '</td>' +
+      '</tr>';
+    }).join("");
+
+    Array.prototype.forEach.call(body.querySelectorAll(".star-btn"), function (btn) {
+      btn.addEventListener("click", function () { toggleStar(btn.getAttribute("data-id")); });
+    });
+  }
+
+  function renderStats() {
+    document.getElementById("stat-total").textContent = rows.length;
+    document.getElementById("stat-phone").textContent = rows.filter(function (r) { return r.phone; }).length;
+    document.getElementById("stat-website").textContent = rows.filter(function (r) { return r.website; }).length;
+    document.getElementById("stat-starred").textContent = Object.keys(starred).length;
+  }
+
+  function escapeHtml(s) {
+    return String(s || "").replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function escapeAttr(s) { return escapeHtml(s); }
+
+  function exportCsv() {
+    var list = filteredRows();
+    var headers = ["region", "suburb", "name", "category", "address", "phone", "website", "email", "starred"];
+    var lines = [headers.join(",")];
+    list.forEach(function (r) {
+      var vals = headers.map(function (h) {
+        if (h === "starred") return starred[r.id] ? "yes" : "no";
+        var v = String(r[h] || "").replace(/"/g, '""');
+        return '"' + v + '"';
+      });
+      lines.push(vals.join(","));
+    });
+    var blob = new Blob([lines.join("\n")], { type: "text/csv" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "business_leads.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  document.getElementById("fetch-btn").addEventListener("click", fetchAll);
+  document.getElementById("export-btn").addEventListener("click", exportCsv);
+  document.getElementById("search-box").addEventListener("input", renderTable);
+  document.getElementById("region-filter").addEventListener("change", renderTable);
+  document.getElementById("starred-only").addEventListener("change", renderTable);
+
+  renderStats();
+})();
+</script>
+</body>
+</html>
