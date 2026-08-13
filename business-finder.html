@@ -233,6 +233,8 @@
   };
   var CATEGORIES = ["office", "shop", "craft"];
   var OVERPASS_URL = "https://overpass-api.de/api/interpreter";
+  var NOMINATIM_URL = "https://nominatim.openstreetmap.org/search";
+  var SEARCH_RADIUS_M = 2000;
 
   var rows = [];
   var starred = {};
@@ -265,13 +267,28 @@
     return Array.prototype.slice.call(container.querySelectorAll("input:checked")).map(function (i) { return i.value; });
   }
 
-  function buildQuery(suburb, categories) {
+  async function geocodeSuburb(suburb) {
+    var params = new URLSearchParams({
+      q: suburb + ", Cape Town, South Africa",
+      format: "json",
+      limit: "1"
+    });
+    var resp = await fetch(NOMINATIM_URL + "?" + params.toString(), {
+      headers: { "Accept": "application/json" }
+    });
+    if (!resp.ok) throw new Error("geocoding HTTP " + resp.status);
+    var data = await resp.json();
+    if (!data.length) throw new Error("suburb not found in OpenStreetMap");
+    return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
+  }
+
+  function buildQuery(lat, lon, categories) {
     var clauses = [];
     categories.forEach(function (cat) {
-      clauses.push('node["' + cat + '"](area.searchArea);');
-      clauses.push('way["' + cat + '"](area.searchArea);');
+      clauses.push('node["' + cat + '"](around:' + SEARCH_RADIUS_M + ',' + lat + ',' + lon + ');');
+      clauses.push('way["' + cat + '"](around:' + SEARCH_RADIUS_M + ',' + lat + ',' + lon + ');');
     });
-    return '[out:json][timeout:25];area["name"="' + suburb + '"]->.searchArea;(' + clauses.join("") + ');out center tags;';
+    return '[out:json][timeout:25];(' + clauses.join("") + ');out center tags;';
   }
 
   function extractRow(el, region, suburb) {
@@ -316,12 +333,17 @@
       REGIONS[region].forEach(function (suburb) { suburbList.push([region, suburb]); });
     });
 
+    var failures = [];
+
     for (var i = 0; i < suburbList.length; i++) {
       var region = suburbList[i][0], suburb = suburbList[i][1];
-      statusLine.textContent = "Fetching " + suburb + " (" + (i + 1) + "/" + suburbList.length + ")...";
+      statusLine.textContent = "Locating " + suburb + " (" + (i + 1) + "/" + suburbList.length + ")...";
       try {
-        var resp = await fetch(OVERPASS_URL, { method: "POST", body: "data=" + encodeURIComponent(buildQuery(suburb, selectedCats)) });
-        if (!resp.ok) throw new Error("HTTP " + resp.status);
+        var coords = await geocodeSuburb(suburb);
+        await sleep(300);
+        statusLine.textContent = "Fetching businesses near " + suburb + " (" + (i + 1) + "/" + suburbList.length + ")...";
+        var resp = await fetch(OVERPASS_URL, { method: "POST", body: "data=" + encodeURIComponent(buildQuery(coords.lat, coords.lon, selectedCats)) });
+        if (!resp.ok) throw new Error("Overpass HTTP " + resp.status);
         var data = await resp.json();
         var found = 0;
         (data.elements || []).forEach(function (el) {
@@ -330,15 +352,21 @@
         });
         statusLine.textContent = suburb + ": " + found + " found. (" + (i + 1) + "/" + suburbList.length + ")";
       } catch (err) {
+        failures.push(suburb + " (" + err.message + ")");
         statusLine.textContent = "Could not fetch " + suburb + " (" + err.message + ") — skipping.";
       }
       renderTable();
       renderStats();
-      await sleep(800);
+      await sleep(1000);
     }
 
     fetchBtn.disabled = false;
-    statusLine.textContent = "Done. " + rows.length + " businesses across " + suburbList.length + " suburbs.";
+    var summary = "Done. " + rows.length + " businesses across " + suburbList.length + " suburbs.";
+    if (failures.length) {
+      summary += " " + failures.length + " suburb(s) failed: " + failures.join(", ") + ".";
+      statusLine.className = "status-line error";
+    }
+    statusLine.textContent = summary;
   }
 
   function currentFilters() {
